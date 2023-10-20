@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http'
 import { environment } from 'src/environments/environment';
 import { firstValueFrom } from 'rxjs'
-import { Cat } from '../models/Cat';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +12,7 @@ export class ApiCatsService {
     private http: HttpClient
   ) { }
 
-  getCats(): Promise<any> {
+  getCats(page: number): Promise<any> {
 
     const headers = new HttpHeaders({
       'x-api-key': environment.apiKey
@@ -21,7 +20,7 @@ export class ApiCatsService {
 
     return firstValueFrom(
       this.http
-        .get(environment.breeds, { headers })
+        .get(environment.breeds, { headers, params: { limit: 10, page } })
     )
   }
 }

@@ -1,4 +1,4 @@
-<ion-header>
+<ion-header class="ion-no-border">
   <ion-toolbar mode="ios">
     <ion-title>Catbreeds</ion-title>
   </ion-toolbar>
@@ -6,7 +6,7 @@
 
 <ion-content>
 
-  <ion-card *ngFor="let k of vmCats.cats">
+  <ion-card mode="ios" *ngFor="let k of vmCats.cats">
 
     <ion-card-header>
       <ion-card-title>
@@ -21,7 +21,6 @@
         <ion-row>
 
           <ion-col size="12">
-
             <ion-img [src]="k.imageUrl" [alt]="k.breedName"></ion-img>
           </ion-col>
 
@@ -31,12 +30,12 @@
 
           <ion-col size="6" class="ion-text-center">
             <small>País de origen</small>
-            <h3>{{k.origin}}</h3>
+            <h2>{{k.origin}}</h2>
           </ion-col>
 
           <ion-col size="6" class="ion-text-center">
             <small>Inteligencia</small>
-            <h3>{{k.intelligence}}</h3>
+            <h2>{{k.intelligence}}</h2>
           </ion-col>
 
         </ion-row>
@@ -46,5 +45,9 @@
     </ion-card-content>
 
   </ion-card>
+
+  <ion-infinite-scroll (ionInfinite)="onIonInfinite($event)">
+    <ion-infinite-scroll-content></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
 
 </ion-content>

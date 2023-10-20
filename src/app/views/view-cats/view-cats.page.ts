@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonicModule } from '@ionic/angular';
+import { InfiniteScrollCustomEvent, IonicModule } from '@ionic/angular';
 import { ViewModelCat } from 'src/app/blocs/viewModel/viewModelCat';
 import { ApiCatsService } from '../../data/api-cats.service';
 import { UiService } from 'src/app/helpers/ui.service';
@@ -36,7 +36,7 @@ export class ViewCatsPage implements OnInit {
 
   //#region Methods
 
-  async #init() {
+  async #init(event?: any) {
 
     const loading = await this.uiService.showLoading()
     loading.present()
@@ -44,6 +44,10 @@ export class ViewCatsPage implements OnInit {
     try {
 
       await this.vmCats.getCats()
+
+      setTimeout(() => {
+        (event as InfiniteScrollCustomEvent).target.complete();
+      }, 500);
 
     } catch (error) {
 
@@ -58,6 +62,11 @@ export class ViewCatsPage implements OnInit {
 
       loading.dismiss()
     }
+  }
+
+  onIonInfinite(event: any) {
+    this.vmCats.page++
+    this.#init(event)
   }
 
   //#endregion

@@ -8,6 +8,8 @@ export class ViewModelCat {
 
   cats: Cat[] = []
 
+  page: number = 0
+
   //#endregion
 
   //#region Constructors
@@ -20,22 +22,19 @@ export class ViewModelCat {
 
   //#region Methods
 
-  async getCats(): Promise<Cat[]> {
-
-    this.cats = []
+  async getCats() {
 
     const result: any[] = await this.apiCatsService
-      .getCats()
+      .getCats(this.page)
 
-    this.cats = result.map<Cat>(x => ({
+    this.cats.push(...result.map<Cat>(x => ({
       breedName: x.name,
       affectionLevel: x.affection_level,
       imageUrl: `${environment.hostImage}${x.reference_image_id}.jpg`,
       intelligence: x.intelligence,
       origin: x.origin
     }))
-
-    return this.cats
+    )
   }
 
   //#endregion
